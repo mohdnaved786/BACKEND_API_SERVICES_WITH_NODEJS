@@ -93,6 +93,7 @@ export const login = async (req: Request, res: Response) => {
     );
 
     res.json({
+      status: 1,
       message: "Login successful",
       token,
       user: {

@@ -7,11 +7,11 @@ const router = Router();
 
 // Protected Routes
 // router.post("/", authMiddleware, productController.createProduct);
-router.post("/", authMiddleware, upload.single("image"), productController.createProduct);
-router.get("/", authMiddleware, productController.getProducts);
-router.get("/:id", authMiddleware, productController.getProductById);
+router.post("/createProduct", authMiddleware, upload.single("image"), productController.createProduct);
+router.get("/getAllProducts", authMiddleware, productController.getProducts);
+router.get("/getProductById/:id", authMiddleware, productController.getProductById);
 // router.put("/:id", authMiddleware, productController.updateProduct);
-router.put("/:id", authMiddleware, upload.single("image"), productController.updateProduct);
-router.delete("/:id", authMiddleware, productController.deleteProduct);
+router.put("/updateProduct/:id", authMiddleware, upload.single("image"), productController.updateProduct);
+router.delete("/deleteProduct/:id", authMiddleware, productController.deleteProduct);
 
 export default router;

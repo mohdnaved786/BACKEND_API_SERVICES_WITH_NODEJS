@@ -1,6 +1,26 @@
 import User from "../models/User";
 import { Request, Response } from "express";
 
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find().select("-password"); // hide passwords
+
+    return res.json({
+      success: true,
+      count: users.length,
+      users,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
+
+
 export const getProfile = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id).select("-password");

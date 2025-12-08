@@ -6,7 +6,8 @@ import {
     getProfile,
     updateProfile,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUserStatus
 } from "../controllers/user.controller";
 
 import { uploadUserPhoto } from "../middleware/userUpload";
@@ -21,5 +22,6 @@ router.put("/profile/:id", authMiddleware, upload.none(), updateProfile);
 // NEW ROUTES
 router.post("/create", uploadUserPhoto.single("photo"), createUser);
 router.delete("/:id", deleteUser);
+router.patch("/:id/status", updateUserStatus)
 
 export default router;

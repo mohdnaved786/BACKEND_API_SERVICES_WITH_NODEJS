@@ -82,7 +82,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.find().select("-password"); // hide passwords
+    const users = await User.find().select("-password").sort({ createdAt: -1 }); // hide passwords
 
     return res.json({
       success: true,
@@ -126,4 +126,47 @@ export const updateProfile = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
+
+
 };
+
+
+// add new api for user status update
+
+
+export const updateUserStatus = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.id;
+    const { status } = req.body;
+
+    if (status !== 0 && status !== 1) {
+      return res.status(400).json({ message: "Status must be 0 or 1" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { status },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.json({
+      success: true,
+      message: "User status updated successfully",
+      user,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+
+
+
+

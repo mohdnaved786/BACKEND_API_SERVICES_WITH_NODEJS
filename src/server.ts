@@ -46,6 +46,7 @@ import productRoutes from "./routes/product.route";
 import path from "path";
 import userRoutes from "./routes/user.route";
 import dashboardRoutes from "./routes/dashboard.routes";
+import countryRoutes from "./routes/countryRoutes";
 
 dotenv.config();
 
@@ -65,9 +66,11 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoutes);
 app.use("/api/products", productRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use('/uploads/users', express.static(path.join(__dirname, 'uploads/users')));
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/countries", countryRoutes);
 
 // Start server
 mongoose

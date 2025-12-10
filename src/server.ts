@@ -47,6 +47,7 @@ import path from "path";
 import userRoutes from "./routes/user.route";
 import dashboardRoutes from "./routes/dashboard.routes";
 import countryRoutes from "./routes/countryRoutes";
+import agentRoutes from "./routes/agent.routes";
 
 dotenv.config();
 
@@ -71,6 +72,7 @@ app.use('/uploads/users', express.static(path.join(__dirname, 'uploads/users')))
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/countries", countryRoutes);
+app.use("/api/agents", agentRoutes);
 
 // Start server
 mongoose

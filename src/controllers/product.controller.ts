@@ -104,6 +104,23 @@ export const getProductById = async (req: Request, res: Response) => {
   }
 };
 
+
+
+
+export const getProductData = async (req: Request, res: Response) => {
+  console.log(1)
+  try {
+    const product = await Product.find({
+      price: { $gt: 2000 }
+    })
+
+    res.json({ message: "Result", product })
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+
 // UPDATE
 // export const updateProduct = async (req: Request, res: Response) => {
 //   try {
@@ -153,3 +170,5 @@ export const deleteProduct = async (req: Request, res: Response) => {
     res.status(400).json({ message: "Invalid product ID" });
   }
 };
+
+

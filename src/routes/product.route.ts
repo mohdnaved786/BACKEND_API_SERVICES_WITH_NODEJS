@@ -10,8 +10,10 @@ const router = Router();
 router.post("/createProduct", authMiddleware, upload.single("image"), productController.createProduct);
 router.get("/getAllProducts", authMiddleware, productController.getProducts);
 router.get("/getProductById/:id", authMiddleware, productController.getProductById);
+router.get("/getProduct", authMiddleware, productController.getProductData);
 // router.put("/:id", authMiddleware, productController.updateProduct);
 router.put("/updateProduct/:id", authMiddleware, upload.single("image"), productController.updateProduct);
 router.delete("/deleteProduct/:id", authMiddleware, productController.deleteProduct);
+
 
 export default router;

@@ -111,7 +111,42 @@ export const getProfile = async (req: Request, res: Response) => {
   }
 };
 
+
 export const updateProfile = async (req: Request, res: Response) => {
+  console.log("naved->", req?.body)
+  try {
+    const allowedUpdates = {
+      userName: req.body.userName,
+      email: req.body.email,
+      mobile: req.body.mobile,
+      country: req.body.country,
+      role: req.body.role,
+      status: req.body.status,
+      photo: req.body.photo,
+    };
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      allowedUpdates,
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "User updated successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+export const updateProfile_old = async (req: Request, res: Response) => {
   try {
     const updateData = req.body;
     const user = await User.findByIdAndUpdate(
@@ -122,7 +157,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.json({ success: true, user, message: "User updated successfully", });
+    res.json({ success: true, message: "User updated successfully", user, });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }

@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import Conversation from "../models/Conversation";
+import Message from "../models/Message";
 
 export const getDummyCountries = async (req: Request, res: Response) => {
     try {

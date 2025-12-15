@@ -7,14 +7,15 @@ import {
     deleteAgent,
     updateAgentOnlineStatus,
 } from "../controllers/agent.controller";
+import { authMiddleware } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.post("/createAgent", createAgent);
-router.get("/getAllAgents", getAllAgents);
-router.get("/getAgentById/:id", getAgentById);
-router.put("/updateAgent/:id", updateAgent);
-router.delete("/deleteAgent/:id", deleteAgent);
+router.post("/createAgent", authMiddleware, createAgent);
+router.get("/getAllAgents", authMiddleware, getAllAgents);
+router.get("/getAgentById/:id", authMiddleware, getAgentById);
+router.put("/updateAgent/:id", authMiddleware, updateAgent);
+router.delete("/deleteAgent/:id", authMiddleware, deleteAgent);
 
 
 // update only online status

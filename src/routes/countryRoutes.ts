@@ -6,4 +6,5 @@ const router = Router();
 
 router.get("/getAllCountries", authMiddleware, getDummyCountries);
 
+
 export default router;

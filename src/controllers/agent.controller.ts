@@ -97,7 +97,7 @@ export const updateAgentOnlineStatus = async (req: Request, res: Response) => {
 
         res.json({
             success: true,
-            message: "Online status updated",
+            message: "Online/Offline status updated Successfully",
             agent,
         });
     } catch (error) {

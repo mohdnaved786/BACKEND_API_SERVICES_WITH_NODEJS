@@ -48,7 +48,8 @@ import userRoutes from "./routes/user.route";
 import dashboardRoutes from "./routes/dashboard.routes";
 import countryRoutes from "./routes/countryRoutes";
 import agentRoutes from "./routes/agent.routes";
-import messagesRoutes from "./routes/message.routes"
+import messagesRoutes from "./routes/message.routes";
+import otpRoutes from "./routes/otp.routes";
 
 dotenv.config();
 
@@ -75,6 +76,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/countries", countryRoutes);
 app.use("/api/agents", agentRoutes);
 app.use("/api/messages", messagesRoutes);
+app.use("/api/otp", otpRoutes);
 
 // Start server
 mongoose

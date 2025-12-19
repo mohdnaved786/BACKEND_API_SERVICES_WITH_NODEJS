@@ -113,7 +113,6 @@ export const getProfile = async (req: Request, res: Response) => {
 
 
 export const updateProfile = async (req: Request, res: Response) => {
-  console.log("naved->", req?.body)
   try {
     const allowedUpdates = {
       userName: req.body.userName,

@@ -50,6 +50,7 @@ import countryRoutes from "./routes/countryRoutes";
 import agentRoutes from "./routes/agent.routes";
 import messagesRoutes from "./routes/message.routes";
 import otpRoutes from "./routes/otp.routes";
+import customerRoutes from "./routes/customer.routes"
 
 dotenv.config();
 
@@ -77,6 +78,7 @@ app.use("/api/countries", countryRoutes);
 app.use("/api/agents", agentRoutes);
 app.use("/api/messages", messagesRoutes);
 app.use("/api/otp", otpRoutes);
+app.use("/api/customers", customerRoutes)
 
 // Start server
 mongoose

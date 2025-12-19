@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { agentDashboardStats } from "../controllers/dashboard.controller";
 
 const router = Router();
 
+router.get("/agents", agentDashboardStats);
 router.get("/", authMiddleware, async (req, res) => {
     try {
         const dashboardData = {

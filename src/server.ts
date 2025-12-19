@@ -40,7 +40,7 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import authRoutes from "./routes/authRoutes";
+import authRoutes from "./routes/auth.routes";
 import testRoutes from "./routes/test.route";
 import productRoutes from "./routes/product.route";
 import path from "path";

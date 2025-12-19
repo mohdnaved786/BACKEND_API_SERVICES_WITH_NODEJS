@@ -1,0 +1,20 @@
+"use strict";
+// const express = require("express");
+// const router = express.Router();
+// const { registerUser, loginUser } = require("../controllers/authController");
+// const {getCaptcha, verifyCaptcha} = require("../controllers/captchaController");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// router.post("/register", registerUser);
+// router.post("/login", loginUser);
+// router.get("/getCaptcha", getCaptcha);
+// router.post("/verifyCaptcha", verifyCaptcha);
+// module.exports = router;
+const express_1 = __importDefault(require("express"));
+const authController_1 = require("../controllers/authController");
+const router = express_1.default.Router();
+router.post("/register", authController_1.register);
+router.post("/login", authController_1.login);
+exports.default = router;

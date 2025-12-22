@@ -1,174 +1,95 @@
 import { Request, Response } from "express";
-import Product from "../models/product.model";
+import Product from "../models/Product";
 
-// CREATE
-// export const createProduct = async (req: Request, res: Response) => {
-//   try {
-//     const product = await Product.create(req.body);
-//     res.status(201).json({ message: "Product created", product });
-//   } catch (err: any) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-export const createProduct = async (req: any, res: Response) => {
+/**
+ * CREATE PRODUCT (Admin)
+ */
+export const createProduct = async (req: Request, res: Response) => {
   try {
-    const productData = req.body;
-
-    // if image uploaded
-    if (req.file) {
-      productData.image = "/uploads/products/" + req.file.filename;
-    }
-
-    const product = await Product.create(productData);
-    res.status(201).json({ message: "Product created", product });
-
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-
-// GET ALL
-// export const getProducts = async (req: Request, res: Response) => {
-//   const products = await Product.find();
-//   res.json(products);
-// };
-
-export const getProducts = async (req: Request, res: Response) => {
-  try {
-    // PAGINATION
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    // SEARCH
-    const search = req.query.search?.toString() || "";
-
-    // FILTERS
-    const category = req.query.category?.toString() || "";
-    const inStock = req.query.inStock?.toString() || "";
-
-    // SORTING
-    const sortField = req.query.sortField?.toString() || "createdAt";
-    const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
-
-    // QUERY OBJECT
-    const query: any = {};
-
-    // Search by product name or description
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } }
-      ];
-    }
-
-    // Filter: Category
-    if (category) query.category = category;
-
-    // Filter: In Stock (true/false)
-    if (inStock) query.inStock = inStock === "true";
-
-    // Fetch data
-    const products = await Product.find(query)
-      .sort({ [sortField]: sortOrder })
-      .skip(skip)
-      .limit(limit);
-
-    // Count total matched products
-    const total = await Product.countDocuments(query);
-
-    res.json({
-      page,
-      limit,
-      total,
-      totalPages: Math.ceil(total / limit),
-      products,
+    const product = await Product.create({
+      ...req.body,
+      images: req.files
+        ? (req.files as Express.Multer.File[]).map(f => f.filename)
+        : []
     });
 
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully",
+      product
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
+/**
+ * GET ALL PRODUCTS (User)
+ */
+export const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const { page = 1, limit = 10, search } = req.query;
 
-// GET BY ID
+    const filter: any = { status: 1 };
+    if (search) filter.title = { $regex: search, $options: "i" };
+
+    const products = await Product.find(filter)
+      .skip((+page - 1) * +limit)
+      .limit(+limit);
+
+    const total = await Product.countDocuments(filter);
+
+    res.json({
+      success: true,
+      total,
+      products
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+/**
+ * GET PRODUCT DETAILS
+ */
 export const getProductById = async (req: Request, res: Response) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
-    res.json(product);
-  } catch {
-    res.status(400).json({ message: "Invalid product ID" });
+
+    res.json({ success: true, product });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
-
-
-
-export const getProductData = async (req: Request, res: Response) => {
-  console.log(1)
+/**
+ * UPDATE PRODUCT
+ */
+export const updateProduct = async (req: Request, res: Response) => {
   try {
-    const product = await Product.find({
-      price: { $gt: 2000 }
-    })
-
-    res.json({ message: "Result", product })
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
-  }
-}
-
-
-// UPDATE
-// export const updateProduct = async (req: Request, res: Response) => {
-//   try {
-//     const product = await Product.findByIdAndUpdate(
-//       req.params.id,
-//       req.body,
-//       { new: true }
-//     );
-//     if (!product) return res.status(404).json({ message: "Product not found" });
-//     res.json({ message: "Product updated", product });
-//   } catch (err: any) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-
-export const updateProduct = async (req: any, res: Response) => {
-  try {
-    const productData = req.body;
-
-    // If new image uploaded
-    if (req.file) {
-      productData.image = "/uploads/products/" + req.file.filename;
-    }
-
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      productData,
+      req.body,
       { new: true }
     );
 
-    res.json({ message: "Product updated", product });
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+    res.json({ success: true, message: "Product updated", product });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
-
-// DELETE
+/**
+ * DELETE PRODUCT
+ */
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const result = await Product.findByIdAndDelete(req.params.id);
-    if (!result) return res.status(404).json({ message: "Product not found" });
-    res.json({ message: "Product deleted" });
-  } catch {
-    res.status(400).json({ message: "Invalid product ID" });
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: "Product deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
-
-

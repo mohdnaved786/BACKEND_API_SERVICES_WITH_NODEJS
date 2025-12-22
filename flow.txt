@@ -1,0 +1,10 @@
+==> Order Flow Chart
+
+User → View Products
+User → Product Details
+User → Add to Cart
+User → Place Order
+Order → Saved in DB
+Cart → Cleared
+Admin → Sees Orders
+User → Sees Order History

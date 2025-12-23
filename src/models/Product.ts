@@ -29,4 +29,4 @@ const productSchema = new Schema<IProduct>(
   { timestamps: true }
 );
 
-export default mongoose.model<IProduct>("Product", productSchema);
+export default mongoose.model<IProduct>("ProductNew", productSchema);

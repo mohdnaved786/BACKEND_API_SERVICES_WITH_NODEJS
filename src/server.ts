@@ -42,7 +42,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.routes";
 import testRoutes from "./routes/test.route";
-import productRoutes from "./routes/product.route";
+import productRoutes from "./routes/product.routes";
 import path from "path";
 import userRoutes from "./routes/user.route";
 import dashboardRoutes from "./routes/dashboard.routes";
@@ -52,6 +52,8 @@ import messagesRoutes from "./routes/message.routes";
 import otpRoutes from "./routes/otp.routes";
 import customerRoutes from "./routes/customer.routes";
 import invoiceRoutes from "./routes/invoice.routes";
+import orderRoutes from "./routes/order.routes";
+import cartRoutes from "./routes/cart.routes";
 
 dotenv.config();
 
@@ -70,7 +72,6 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoutes);
-app.use("/api/products", productRoutes);
 // app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use('/uploads/users', express.static(path.join(__dirname, 'uploads/users')));
 app.use("/api/users", userRoutes);
@@ -80,7 +81,11 @@ app.use("/api/agents", agentRoutes);
 app.use("/api/messages", messagesRoutes);
 app.use("/api/otp", otpRoutes);
 app.use("/api/customers", customerRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/invoice", invoiceRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/admin/orders", orderRoutes);
+app.use("/api/cart", cartRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Start server

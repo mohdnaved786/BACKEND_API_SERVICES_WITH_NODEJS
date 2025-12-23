@@ -40,6 +40,34 @@ export const addToCart = async (req: any, res: Response) => {
 };
 
 /**
+ * UPDATE QUANTITY ✅ (THIS WAS MISSING)
+ */
+// export const updateQuantity = async (req: Request, res: Response) => {
+//   try {
+//     const userId = (req as any).user.id;
+//     const { itemId } = req.params;
+//     const { quantity } = req.body;
+
+//     if (quantity < 1) {
+//       return res.status(400).json({ message: "Quantity must be at least 1" });
+//     }
+
+//     const cart = await Cart.findOne({ userId });
+//     if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+//     const item = cart.items.id(itemId);
+//     if (!item) return res.status(404).json({ message: "Item not found" });
+
+//     item.quantity = quantity;
+//     await cart.save();
+
+//     res.json({ success: true, message: "Quantity updated", cart });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
+
+/**
  * GET CART
  */
 export const getCart = async (req: any, res: Response) => {
